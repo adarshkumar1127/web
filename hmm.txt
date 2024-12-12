@@ -1,0 +1,931 @@
+// merge short 
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function prototypes
+void divide(int arr[], int st, int end);
+void merge(int arr[], int st, int mid, int end);
+
+void divide(int arr[], int st, int end) {
+    if (st >= end) {
+        return;
+    }
+
+    int mid = st + (end - st) / 2;
+    divide(arr, st, mid);
+    divide(arr, mid + 1, end);
+    merge(arr, st, mid, end);
+}
+
+void merge(int arr[], int st, int mid, int end) {
+    int *meet = (int *)malloc((end - st + 1) * sizeof(int));
+    int x1 = st;
+    int x2 = mid + 1;
+    int q = 0;
+
+    while (x1 <= mid && x2 <= end) {
+        if (arr[x1] <= arr[x2]) {
+            meet[q++] = arr[x1++];
+        } else {
+            meet[q++] = arr[x2++];
+        }
+    }
+
+    while (x1 <= mid) {
+        meet[q++] = arr[x1++];
+    }
+
+    while (x2 <= end) {
+        meet[q++] = arr[x2++];
+    }
+
+    for (int i = 0, j = st; i < q; i++, j++) {
+        arr[j] = meet[i];
+    }
+
+    free(meet);
+}
+
+int main() {
+    int arr[] = {5, 9, 7, 3, 1, 4, 6, 2, 8, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    divide(arr, 0, n - 1);
+
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//bubble short
+
+#include <stdio.h>
+
+void bubbleSort(int arr[], int n) {
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = 0; j < n - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        int temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+}
+
+void printArray(int arr[], int size) {
+  for (int i = 0; i < size; ++i)
+    printf("%d  ", arr[i]);
+  printf("\n");
+}
+
+int main() {
+  int arr[] = {64, 34, 25, 12, 22, 11, 90};
+  int n = sizeof(arr) / sizeof(arr[0]);
+
+  printf("Unsorted array: \n");
+  printArray(arr, n);
+
+  bubbleSort(arr, n);
+
+  printf("Sorted array: \n");
+  printArray(arr, n);
+  return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//insertion short
+
+#include <stdio.h>
+
+void insertionSort(int arr[], int n) {
+    int i, key, j;
+    for (i = 1; i < n; i++) {
+        key = arr[i];
+        j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+void printArray(int arr[], int n) {
+    int i;
+    for (i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Unsorted Array\n");
+    printArray(arr, n);
+
+    insertionSort(arr, n);
+
+    printf("Sorted array\n");
+    printArray(arr, n);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//quick sort
+
+#include <stdio.h>
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {10, 7, 8, 9, 1, 5};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    printf("Unsorted array: \n");
+    printArray(arr, n);
+
+    quickSort(arr, 0, n - 1);
+
+    printf("Sorted array: \n");
+    printArray(arr, n);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//binary search
+
+#include <stdio.h>
+
+int binarySearch(int arr[], int left, int right, int target) {
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) {
+            return mid;
+        }
+
+        if (arr[mid] < target) {
+            left = mid + 1;
+        } else { 
+            right = mid - 1;
+        }
+    }
+    return -1;
+}
+
+int main() {
+    int arr[] = {2, 3, 4, 10, 40};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int target = 10;
+
+    int result = binarySearch(arr, 0, n - 1, target);
+    if (result != -1) {
+        printf("Element is present at index %d\n", result);
+    } else {
+        printf("Element is not present in array\n");
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// floyd warshall
+
+#include <stdio.h>
+#define nV 4
+#define INF 999
+
+void printMatrix(int matrix[][nV]);
+void floydWarshall(int graph[][nV]) {
+  int matrix[nV][nV], i, j, k;
+
+  for (i = 0; i < nV; i++)
+    for (j = 0; j < nV; j++)
+      matrix[i][j] = graph[i][j];
+
+  for (k = 0; k < nV; k++) {
+    for (i = 0; i < nV; i++) {
+      for (j = 0; j < nV; j++) {
+        if (matrix[i][k] + matrix[k][j] < matrix[i][j])
+          matrix[i][j] = matrix[i][k] + matrix[k][j];
+      }
+    }
+  }
+  printMatrix(matrix);
+}
+
+void printMatrix(int matrix[][nV]) {
+  for (int i = 0; i < nV; i++) {
+    for (int j = 0; j < nV; j++) {
+      if (matrix[i][j] == INF)
+        printf("%4s", "INF");
+      else
+        printf("%4d", matrix[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+int main() {
+  int graph[nV][nV] = {{0, 3, INF, 5},
+             {2, 0, INF, 4},
+             {INF, 1, 0, INF},
+             {INF, INF, 2, 0}};
+  floydWarshall(graph);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Minimum number of scalar multiplications
+
+#include <stdio.h>
+#include <limits.h>
+int matrixChainOrder(int p[], int n) {
+    int m[n][n];
+    for (int i = 1; i < n; i++) {
+        m[i][i] = 0;
+    }
+    for (int L = 2; L < n; L++) {
+        for (int i = 1; i < n - L + 1; i++) {
+            int j = i + L - 1;
+            m[i][j] = INT_MAX;
+            
+            for (int k = i; k <= j - 1; k++) {
+                int q = m[i][k] + m[k + 1][j] + p[i - 1] * p[k] * p[j];
+                if (q < m[i][j]) {
+                    m[i][j] = q;
+                }
+            }
+        }
+    }
+    return m[1][n - 1];
+}
+
+int main() {
+    int arr[] = {1, 2, 3, 4};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    int result = matrixChainOrder(arr, n);
+    printf("Minimum number of scalar multiplications is %d\n", result);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// shortest distances between every pair of vertice
+
+#include <stdio.h>
+#define INF 99999
+#define V 4
+void printSolution(int dist[][V]) {
+    printf("shortest distances between every pair of vertices:\n");
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (dist[i][j] == INF) {
+                printf("%7s", "INF");
+            } else {
+                printf("%7d", dist[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+void floydWarshall(int graph[][V]) {
+    int dist[V][V];
+
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            dist[i][j] = graph[i][j];
+        }
+    }
+
+    for (int k = 0; k < V; k++) {
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+    printSolution(dist);
+}
+
+int main() {
+    int graph[V][V] = { {0, 5, INF, 10},
+                        {INF, 0, 3, INF},
+                        {INF, INF, 0, 1},
+                        {INF, INF, INF, 0} };
+
+    floydWarshall(graph);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// salesman problem
+
+#include <stdio.h>
+#include <limits.h>
+
+#define V 4
+int tsp(int graph[][V], int path[], int visited[], int pos, int n, int count, int cost, int ans) {
+    if (count == n && graph[pos][0]) {
+        if (cost + graph[pos][0] < ans) {
+            return cost + graph[pos][0];
+        }
+        return ans;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (!visited[i] && graph[pos][i]) {
+            visited[i] = 1;
+            path[count] = i;
+            ans = tsp(graph, path, visited, i, n, count + 1, cost + graph[pos][i], ans);
+            visited[i] = 0;
+        }
+    }
+    return ans;
+}
+
+int main() {
+    int graph[V][V] = { {0, 10, 15, 20},
+                        {10, 0, 35, 25},
+                        {15, 35, 0, 30},
+                        {20, 25, 30, 0} };
+
+    int path[V];
+    int visited[V];
+    for (int i = 0; i < V; i++) {
+        visited[i] = 0;
+    }
+    visited[0] = 1;
+    int ans = INT_MAX;
+    ans = tsp(graph, path, visited, 0, V, 1, 0, ans);
+    printf("The minimum cost to visit all cities is %d\n", ans);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Single Source Shortest Path
+
+#include <stdio.h>
+#include <limits.h>
+#define V 5
+int minDistance(int dist[], int sptSet[]) {
+    int min = INT_MAX, min_index;
+
+    for (int v = 0; v < V; v++)
+        if (sptSet[v] == 0 && dist[v] <= min)
+            min = dist[v], min_index = v;
+
+    return min_index;
+}
+
+void printSolution(int dist[]) {
+    printf("Vertex \t\t Distance from Source\n");
+    for (int i = 0; i < V; i++)
+        printf("%d \t\t %d\n", i, dist[i]);
+}
+
+void dijkstra(int graph[V][V], int src) {
+    int dist[V];
+    int sptSet[V];
+    for (int i = 0; i < V; i++) {
+        dist[i] = INT_MAX;
+        sptSet[i] = 0;
+    }
+    dist[src] = 0;
+
+    for (int count = 0; count < V - 1; count++) {
+        int u = minDistance(dist, sptSet);
+        sptSet[u] = 1;
+        for (int v = 0; v < V; v++)
+            if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
+                dist[v] = dist[u] + graph[u][v];
+    }
+    printSolution(dist);
+}
+
+int main() {
+    int graph[V][V] = { {0, 10, 0, 0, 5},
+                        {10, 0, 1, 0, 2},
+                        {0, 1, 0, 4, 0},
+                        {0, 0, 4, 0, 2},
+                        {5, 2, 0, 2, 0} };
+
+    dijkstra(graph, 0); 
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Branch and Bound
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+#define N 4
+int findMinEdge(int graph[N][N], int i) {
+    int min = INT_MAX;
+    for (int j = 0; j < N; j++) {
+        if (graph[i][j] && graph[i][j] < min) {
+            min = graph[i][j];
+        }
+    }
+    return min;
+}
+
+int calculateInitialBound(int graph[N][N]) {
+    int bound = 0;
+    for (int i = 0; i < N; i++) {
+        bound += findMinEdge(graph, i);
+    }
+    return bound / 2;
+}
+
+void branchAndBound(int graph[N][N], int path[], int bound, int curr_weight, int level, int visited[], int *ans, int curr_path[]) {
+    if (level == N) {
+        if (graph[curr_path[level - 1]][curr_path[0]]) {
+            int curr_res = curr_weight + graph[curr_path[level - 1]][curr_path[0]];
+            if (curr_res < *ans) {
+                for (int i = 0; i < N; i++) {
+                    path[i] = curr_path[i];
+                }
+                *ans = curr_res;
+            }
+        }
+        return;
+    }
+
+    for (int i = 0; i < N; i++) {
+        if (!visited[i] && graph[curr_path[level - 1]][i]) {
+            int temp = bound;
+            curr_weight += graph[curr_path[level - 1]][i];
+
+            if (level == 1) {
+                bound -= ((findMinEdge(graph, curr_path[level - 1]) + findMinEdge(graph, i)) / 2);
+            } else {
+                bound -= ((findMinEdge(graph, curr_path[level - 1]) + findMinEdge(graph, i)) / 2);
+            }
+
+            if (bound + curr_weight < *ans) {
+                curr_path[level] = i;
+                visited[i] = 1;
+
+                branchAndBound(graph, path, bound, curr_weight, level + 1, visited, ans, curr_path);
+            }
+
+            curr_weight -= graph[curr_path[level - 1]][i];
+            bound = temp;
+
+            for (int j = 0; j < N; j++) {
+                visited[j] = 0;
+            }
+            for (int j = 0; j <= level - 1; j++) {
+                visited[curr_path[j]] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int graph[N][N] = { {0, 10, 15, 20},
+                        {10, 0, 35, 25},
+                        {15, 35, 0, 30},
+                        {20, 25, 30, 0} };
+
+    int path[N];
+    int visited[N] = {0};
+    int curr_path[N];
+    int ans = INT_MAX;
+
+    int initial_bound = calculateInitialBound(graph);
+    curr_path[0] = 0;
+    visited[0] = 1;
+
+    branchAndBound(graph, path, initial_bound, 0, 1, visited, &ans, curr_path);
+
+    printf("The minimum cost to visit all cities is %d\n", ans);
+    printf("The path is: ");
+    for (int i = 0; i < N; i++) {
+        printf("%d ", path[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//n queen
+
+#include <stdio.h>
+#define N 4
+void printSolution(int board[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%c ", board[i][j] ? 'Q' : '_');
+        }
+        printf("\n");
+    }
+}
+int isSafe(int board[N][N], int row, int col) {
+    int i, j;
+    for (i = 0; i < col; i++) {
+        if (board[row][i]) {
+            return 0;
+        }
+    }
+
+    for (i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+        if (board[i][j]) {
+            return 0;
+        }
+    }
+
+    for (i = row, j = col; j >= 0 && i < N; i++, j--) {
+        if (board[i][j]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+int solveNQueensUtil(int board[N][N], int col) {
+    if (col >= N) {
+        return 1;
+    }
+
+    for (int i = 0; i < N; i++) {
+        if (isSafe(board, i, col)) {
+            board[i][col] = 1;
+
+            if (solveNQueensUtil(board, col + 1)) {
+                return 1;
+            }
+
+            board[i][col] = 0;
+        }
+    }
+
+    return 0;
+}
+int solveNQueens() {
+    int board[N][N] = {0};
+
+    if (solveNQueensUtil(board, 0) == 0) {
+        printf("Solution does not exist\n");
+        return 0;
+    }
+
+    printSolution(board);
+    return 1;
+}
+
+int main() {
+    solveNQueens();
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//find minimum cost spanning tree using Prim’s Algorithm.
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <limits.h>
+#define V 5
+int minKey(int key[], bool mstSet[]) {
+    int min = INT_MAX, min_index;
+
+    for (int v = 0; v < V; v++) {
+        if (mstSet[v] == false && key[v] < min) {
+            min = key[v], min_index = v;
+        }
+    }
+    return min_index;
+}
+void printMST(int parent[], int graph[V][V]) {
+    printf("Edge \tWeight\n");
+    for (int i = 1; i < V; i++) {
+        printf("%d - %d \t%d \n", parent[i], i, graph[i][parent[i]]);
+    }
+}
+void primMST(int graph[V][V]) {
+    int parent[V];
+    int key[V];
+    bool mstSet[V];
+    for (int i = 0; i < V; i++) {
+        key[i] = INT_MAX;
+        mstSet[i] = false;
+    }
+    key[0] = 0;
+    parent[0] = -1;
+    for (int count = 0; count < V - 1; count++) {
+        int u = minKey(key, mstSet);
+
+        mstSet[u] = true;
+
+        for (int v = 0; v < V; v++) {
+            if (graph[u][v] && mstSet[v] == false && graph[u][v] < key[v]) {
+                parent[v] = u;
+                key[v] = graph[u][v];
+            }
+        }
+    }
+    printMST(parent, graph);
+}
+
+int main() {
+    int graph[V][V] = { {0, 2, 0, 6, 0},
+                        {2, 0, 3, 8, 5},
+                        {0, 3, 0, 0, 7},
+                        {6, 8, 0, 0, 9},
+                        {0, 5, 7, 9, 0} };
+    primMST(graph);
+
+    return 0;
+}
